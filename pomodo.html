@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" cotimeetime="width=device-width, initial-scale=1.0">
+    <title>Simple Pomodoro Timer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"
+        integrity="sha512-P5MgMn1jBN01asBgU0z60Qk4QxiXo86+wlFahKrsQf37c9cro517WzVSPPV1tDKzhku2iJ2FVgL67wG03SGnNA=="
+        crossorigin="anonymous" />
+    <link rel="stylesheet" href="pomodoro.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="container-fluid d-flex align-items-center justify-content-center flex-column active">
+        <div class="focus d-flex flex-column ">
+            <h1 class="pomo">Simple Pomodoro Timer</h1>
+            <div class="button-wrapper d-flex justify-content-center">
+                <input type="button" class="btn btn-foc mr-3" value="focus" id="focus">
+                <input type="button" class="btn btn-short mr-3" value="short break" id="shrt-brk">
+                <input type="button" class="btn btn-long mr-3" value="long break" id="lg-brk">
+                <input type="button" class="btn btn-re mr-3" value="reset" id="reset">
+            </div>
+            <div class="pomodoro-wrapper">
+                <p id="pomo-time">25:00</p>
+            </div>
+            <p id="pomo-des" class="text-center">click once to start, click once more to pause</p>
+            <!-- <div class="btn-box">
+                <input type="button" class="btn  mx-auto btn-danger" value="pause" id="pause">
+            </div> -->
+        </div>
+    </div>
+</body>
+<script>
+
+    let focus = 25
+    let focus_sec = 00
+    let shrt_brk = 5
+    let shrt_brk_sec = 00
+    let lg_brk = 15
+    let lg_brk_sec = 00
+    let pomoid = -1
+    let short = -1
+    let long = -1
+    let timeLeft = document.querySelector('#pomo-time')
+    let init_btn = document.querySelector('#focus')
+    let shrt_btn = document.querySelector('#shrt-brk')
+    let lg_btn = document.querySelector('#lg-brk')
+    let pause = document.querySelector('#pause')
+    let start_btn = document.querySelector('#start')
+    let container = document.querySelector('.container-fluid')
+    let reset=document.querySelector('#reset')
+
+    shrt_btn.onclick = function () {
+        container.classList.remove('active', 'long')
+        container.classList.add('short');
+    }
+    lg_btn.onclick = function () {
+        container.classList.remove('short', 'active')
+        container.classList.add('long');
+    }
+
+
+    /* focus mode */
+    if (focus < 10) {
+        console.log(focus.toString() + 0)
+        focus = focus.toString() + '0'
+        console.log(focus)
+    }
+    function countdown() {
+
+        if (focus <= 0 && focus_sec == 0) {
+
+            clearInterval(pomoid, alert('take a break!'), timeLeft = '00:00', location.reload())
+        }
+
+        if (focus_sec == 0) {
+            focus_sec = 59
+            focus -= 1
+
+        } else {
+
+
+            focus_sec -= 1
+            if (focus_sec < 10) {
+                focus_sec = '0' + focus_sec
+            }
+        }
+
+        timeLeft.innerHTML = focus + ':' + focus_sec
+
+
+    }
+
+    init_btn.addEventListener('click', () => {
+
+        if (pomoid == -1) {
+            clearInterval(long)
+            clearInterval(short)
+            pomoid = setInterval(countdown, 1000)
+        } else {
+            clearInterval(pomoid)
+            pomoid = -1;
+
+
+        }
+
+    })
+
+    /* five minute short break */
+   /*  if (shrt_brk < 10) {
+        
+        shrt_brk = shrt_brk.toString() + '0'
+        
+    } */
+    function shortbreak() {
+        timeLeft.innerHTML = shrt_brk + ':' + shrt_brk_sec + '0';
+        //console.log(timeLeft.innerHTML)
+
+        if (shrt_brk <= 0 && shrt_brk_sec == 0) {
+            shrt_brk = '0' + shrt_brk
+            clearInterval(short, alert('back to work, darling'), timeLeft = '00:00', location.reload())
+        }
+        if (shrt_brk_sec == 0) {
+            shrt_brk_sec = 59
+            shrt_brk -= 1
+            if (shrt_brk < 10) {
+                //console.log(shrt_brk)
+                shrt_brk = '0' + shrt_brk.toString()
+
+            }
+        } else {
+            shrt_brk_sec -= 1
+            if (shrt_brk_sec < 10) {
+                shrt_brk_sec = '0' + shrt_brk_sec
+            }
+
+        }
+        timeLeft.innerHTML = shrt_brk + ':' + shrt_brk_sec
+
+
+
+    }
+    shrt_btn.addEventListener('click', () => {
+
+        if (short == -1) {
+            clearInterval(pomoid)
+            clearInterval(long)
+            timeLeft.innerHTML = '0'+shrt_brk + ':' + shrt_brk_sec+'0';
+            short = setInterval(shortbreak, 1000)
+        } else {
+            clearInterval(short)
+            short = -1;
+
+
+        }
+
+    })
+
+    function longbreak() {
+        timeLeft.innerHTML = lg_brk + ':' + lg_brk_sec + '0'
+ /*        if (lg_brk < 10) {
+        
+        lg_brk = lg_brk.toString() + '0'
+       
+    } */
+        if (lg_brk <= 0 && lg_brk_sec == 0) {
+            lg_brk = '0' + lg_brk
+            clearInterval(pomoid, timeLeft = '00:00')
+        }
+        if (lg_brk_sec == 0) {
+            lg_brk_sec = 59
+            lg_brk -= 1
+            if (lg_brk < 10) {
+                lg_brk = '0' + lg_brk
+            }
+        } else {
+            lg_brk_sec -= 1
+            if (lg_brk_sec < 10) {
+                lg_brk_sec = '0' + lg_brk_sec
+            }
+
+        }
+        timeLeft.innerHTML = lg_brk + ':' + lg_brk_sec
+
+    }
+
+    lg_btn.addEventListener('click', () => {
+
+        if (long == -1) {
+            clearInterval(pomoid)
+            clearInterval(short)
+            long = setInterval(longbreak, 1000)
+        } else {
+            clearInterval(long)
+            long = -1;
+
+
+        }
+
+    })
+
+function re(){
+    location.reload();
+}
+
+reset.addEventListener('click', re)
+
+
+
+</script>
+
+</html>

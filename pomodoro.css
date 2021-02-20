@@ -1,0 +1,100 @@
+html{
+  overflow:hidden;
+}
+body {
+  overflow: hidden;
+  font-family: "JetBrains Mono", monospace;
+}
+.focus{
+    display:border-box;
+    margin:auto;
+   /*  padding:10rem; */
+    /* margin-top: -12rem; */
+    
+    
+   
+}
+.pomo{
+  margin-bottom: -11rem;
+  text-align:center;
+  color:white;
+}
+.container-fluid {
+  height: 100vh;
+  width: 100vw;
+ 
+}
+.active{
+  background-image: linear-gradient(
+    to right top,
+    #ffcaa6,
+    #ffb395,
+    #ff998c,
+    #ff7f8c,
+    #f86594
+  );
+  background-size:400%;
+  animation:bg-anione 7s infinite ease-in-out;
+}
+@keyframes bg-anione{
+  0%{
+    background-position:left;
+  }
+  50%{
+    background-position:center;
+  }
+  100%{
+    background-position:right;
+  }
+}
+.short{
+  background-image: linear-gradient(to right top, #87f4b5, #62eed5, #5ae4ec, #73d8f5, #93cbf1);
+  background-size:400%;
+  animation:bg-anione 5s infinite ease-in-out;
+}
+
+.long{
+  background-image: linear-gradient(to right top, #ea98da, #d788df, #bc7be7, #9772f0, #5b6cf9);
+  background-size:400%;
+  animation:bg-anione 5s infinite ease-in-out;
+}
+
+#pomo-time{
+    font-size:15rem;
+    color:white;
+}
+#pomo-des{
+    color:white;
+}
+#start{
+    display:inline-block;
+    text-align: center;
+    background:#f86594;
+    width:7rem;
+    height:3rem;
+    color:white;
+}
+.button-wrapper{
+    margin-top: 15rem;
+}
+
+.btn{
+  background-color:transparent;
+  border:3px solid white;
+  color:white;
+}
+.btn-foc:hover{
+  background-color:#87f4b5;
+}
+.btn-short:hover{
+  background-color:#93cbf1;
+}
+.btn-long:hover{
+  background-color:#9772f0;
+}
+.btn-re:hover{
+  background-color:#ea98da;
+}
+.btn:focus{
+  box-shadow:none!important;
+}
